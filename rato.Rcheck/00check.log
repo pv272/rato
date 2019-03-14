@@ -1,0 +1,16 @@
+* using log directory ‘/home/colin/rato/rato.Rcheck’
+* using R version 3.5.1 (2018-07-02)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --as-cran’
+* checking for file ‘rato/DESCRIPTION’ ... OK
+* this is package ‘rato’ version ‘0.0.0.9000’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Namespace dependencies not required: ‘DBI’ ‘dplyr’ ‘lubridate’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
