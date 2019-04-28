@@ -248,7 +248,7 @@ inner_join(AllCall %>% distinct (AnimalID,Date) #one only wants one colony for e
 ##################################################################################################
 #' get_all_call_tidy
 #'
-#'get_all_call_tidy
+#'load all data from elo analysis
 #'
 #'@name get_all_call_tidy
 #'@aliases get_all_call_tidy
@@ -256,7 +256,10 @@ inner_join(AllCall %>% distinct (AnimalID,Date) #one only wants one colony for e
 #'@return a tibble
 #'@import dplyr
 #'@export
-#'
+#'@examples
+#'con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' AllCall_Tidy <- get_all_call_tidy(con)
 
 get_all_call_tidy <- function(con){
   ### load data
@@ -264,23 +267,83 @@ get_all_call_tidy <- function(con){
   ScanCall <- get_scan_call(con)
   AllCall <- get_all_call(FocalCall, ScanCall)
   Membership <- get_membership(con)
+  Sex <- get_sex(con)
 
+  #get colonies for winner and loser
   WinnerColony <- get_colony(
     AllCall%>%
       select(Winner,Date)%>%
       rename(AnimalID=Winner),Membership) %>%
     select(-ColonyOrigin)
-  # View(WinnerColony)
 
-
-  #get loser colony
-  LoserColony <- get_Colony(
+  LoserColony <- get_colony(
     AllCall%>%
       select(Loser,Date)%>%
       rename(AnimalID=Loser),Membership) %>%
     select(-ColonyOrigin)
 
 
+  AllCall_Tidy<-AllCall%>%
+    filter (Winner != Loser) %>% #eliminate animals that interacts with themselves
+    inner_join(.,WinnerColony, by=c("Date"="Date","Winner"="AnimalID")) %>%
+    rename(Winner_QueriedColony=QueriedColony) %>%
+    inner_join(.,LoserColony, by=c("Date"="Date","Loser"="AnimalID")) %>%
+    rename(Loser_QueriedColony=QueriedColony) %>%
+    filter(Loser_QueriedColony==Winner_QueriedColony) %>%  #removes interactions where colony of the winner ands loser are different. This solves the issue of sub call observed on days animals changed colonies (and are assigned two colonies) because the interaction is possible only when the colony of the winner and the colony of the loser matches.
+    inner_join(., Sex, by=c("Winner"="AnimalID")) %>% # add the sex of the winner
+    rename(SexWinner=Sex) %>%
+    inner_join(., Sex, by=c("Loser"="AnimalID")) %>% #add the sex of the loser
+    rename(SexLoser=Sex) %>%
+    mutate(InterractionType=ifelse(SexLoser =="F" & SexWinner=="F","Female",
+                                   ifelse (SexWinner=="M" & SexLoser =="M","Male", "Mixed"))) %>%
+    ### GROUP BY QUERIED COLONY (WINNER OR LOSER IS SAME)
+    group_by(Winner_QueriedColony) %>%
+    mutate(ColonyInteraction_Count = 1:n()) %>% #total number of interaction per colony
+    ungroup()
+  return(AllCall_Tidy)
+
+}
+
+##################################################################################################
+#' filter_all_data
+#'
+#' filter data to retain colonies with X observations
+#'
+#'@name filter_all_data
+#'@aliases filter_all_data
+#'@param AllCall_Tidy a df build with the function get_all_call_tidy
+#'@return a tibble
+#'@import tidyr
+#'@export
+#'@examples
+#' con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' AllCall_Tidy <- get_all_call_tidy(con)
+#' Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+
+filter_all_data <- function(AllCall_Tidy, n_obs){
+
+Call_Summary<-AllCall_Tidy  %>%
+  group_by(Colony,ObsType) %>%
+  summarize(SessionCount=n_distinct(ObsRef)) %>%
+  tidyr::spread(ObsType,SessionCount) %>%
+  replace(., is.na(.), 0) %>%
+  mutate(TotalSession=Scan+Focal) %>%
+  arrange(TotalSession)
+# View(Call_Summary)
+
+#colony to retain for analysis of Elo. One decides to keep colony that have had at least 15 sessions
+ColonyToRetain<-Call_Summary%>%
+  filter(TotalSession> n_obs) %>%
+  select(Colony)
+
+
+#get the dataset for elo calculation after removal of colonies for which we have had less than 15 obs sessions
+AllCall_Elo <-AllCall_Tidy %>%
+  select(-Colony) %>%
+  rename(Colony=Winner_QueriedColony) %>%
+  inner_join(.,ColonyToRetain, by = "Colony")
+return(AllCall_Elo)
 }
 
 
