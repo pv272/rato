@@ -32,7 +32,7 @@ LEFT JOIN
     Moleratdatabase.tblColonyCodes ON MoleratViews_Pending.MemberShipBetween.ColonyRef = tblColonyCodes.ColonyRef
 WHERE MemberShipBetween.ColonyRef <> 120
 AND MemberShipBetween.Colony <> 'Exported_Nigel'") %>%
-    dplyr::mutate(MemberFrom=lubridate::ymd(MemberFrom),MemberTo=lubridate::ymd(MemberTo)) %>%
+    dplyr::mutate(MemberFrom=lubridate::ymd(MemberFrom),MemberTo= ymd(MemberTo)) %>%
     dplyr::select(AnimalRef,AnimalID,MemberFrom,MemberTo,QueriedColony,ColonyOrigin)
 }
 
@@ -93,6 +93,7 @@ FocalCall <- con %>%
   dplyr::mutate(Date=lubridate::ymd(Date)) %>%
   lapply(., function(x) rep(x,.$BehaviourCount)) %>%
   tibble::as_tibble(.)
+
 FocalCall_tidy <- FocalCall %>%
   filter (Received == 1) %>%
   rename(Loser=AnimalID, Winner=Partner) %>%
@@ -100,6 +101,8 @@ FocalCall_tidy <- FocalCall %>%
               filter (Received == 0) %>%
               rename(Winner=AnimalID, Loser=Partner)) %>%
   select(-Received)
+
+return(FocalCall_tidy)
 }
 
 ##################################################################################################
@@ -226,15 +229,58 @@ get_characteristics <- function(con){
 #'@examples
 #' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' Membership <- get_characteristics(con)
+#' Membership <- get_membership(con)
 #' FocalCall <- get_focal_call(con)
 #' ScanCall <- get_scan_call(con)
 #' AllCall <- get_all_call(FocalCall, ScanCall)
-#' AllCall_colony <- get_colony(AllCall, Membership)
+#' AllCall_colony <- get_colony(AllCall%>%
+#'  select(Winner,Date)%>%
+#'  rename(AnimalID=Winner),Membership)
+#'
 get_colony <- function(AllCall, Membership) {
 inner_join(AllCall %>% distinct (AnimalID,Date) #one only wants one colony for each day as individual cannot be measure in two colonies simultaneousls
            , Membership, by = "AnimalID") %>%
   filter(Date >= MemberFrom & Date <= MemberTo)%>%
   select(-c(MemberFrom,MemberTo,AnimalRef))
 }
+
+
+##################################################################################################
+#' get_all_call_tidy
+#'
+#'get_all_call_tidy
+#'
+#'@name get_all_call_tidy
+#'@aliases get_all_call_tidy
+#'@param con a connection to the database
+#'@return a tibble
+#'@import dplyr
+#'@export
+#'
+
+get_all_call_tidy <- function(con){
+  ### load data
+  FocalCall <- get_focal_call(con)
+  ScanCall <- get_scan_call(con)
+  AllCall <- get_all_call(FocalCall, ScanCall)
+  Membership <- get_membership(con)
+
+  WinnerColony <- get_colony(
+    AllCall%>%
+      select(Winner,Date)%>%
+      rename(AnimalID=Winner),Membership) %>%
+    select(-ColonyOrigin)
+  # View(WinnerColony)
+
+
+  #get loser colony
+  LoserColony <- get_Colony(
+    AllCall%>%
+      select(Loser,Date)%>%
+      rename(AnimalID=Loser),Membership) %>%
+    select(-ColonyOrigin)
+
+
+}
+
 
