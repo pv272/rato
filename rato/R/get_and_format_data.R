@@ -9,7 +9,7 @@
 #'@import DBI
 #'@import dplyr
 #'@import lubridate
-#''@export
+#'@export
 #'@examples
 #'  con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #'  dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
@@ -49,7 +49,7 @@ AND MemberShipBetween.Colony <> 'Exported_Nigel'") %>%
 #'@import dplyr
 #'@import lubridate
 #'@import tibble
-#''@export
+#'@export
 #'@examples
 #' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
@@ -80,7 +80,7 @@ ScanCall <- con %>%
 #'@import dplyr
 #'@import lubridate
 #'@import tibble
-#''@export
+#'@export
 #'@examples
 #' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
@@ -112,14 +112,15 @@ return(FocalCall_tidy)
 #'
 #'@name get_all_call
 #'@aliases get_all_call
-#'@param FocalCall
-#'@param ScanCall
+#'@param FocalCall output from get_focal_call
+#'@param ScanCall output from get_scan_call
 #'@return a tibble
 #'@import DBI
 #'@import dplyr
 #'@import lubridate
 #'@import tibble
-#''@export
+#'@import hms
+#'@export
 #'@examples
 #' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
@@ -222,7 +223,8 @@ get_characteristics <- function(con){
 #'
 #'@name get_colony
 #'@aliases get_colony
-#'@param con a connection to the database
+#'@param AllCall  AllCall df
+#'@param Membership Membership df
 #'@return a tibble
 #'@import dplyr
 #'@export
@@ -312,8 +314,10 @@ get_all_call_tidy <- function(con){
 #'@name filter_all_data
 #'@aliases filter_all_data
 #'@param AllCall_Tidy a df build with the function get_all_call_tidy
+#'@param n_obs minimal number of observations
 #'@return a tibble
 #'@import tidyr
+#'@import dplyr
 #'@export
 #'@examples
 #' con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
