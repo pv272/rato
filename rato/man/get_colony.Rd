@@ -18,14 +18,14 @@ a tibble
 add the colony for the all call df
 }
 \examples{
-con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-Membership <- get_membership(con)
-FocalCall <- get_focal_call(con)
-ScanCall <- get_scan_call(con)
-AllCall <- get_all_call(FocalCall, ScanCall)
-AllCall_colony <- get_colony(AllCall\%>\%
- select(Winner,Date)\%>\%
- rename(AnimalID=Winner),Membership)
+#con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#Membership <- get_membership(con)
+#FocalCall <- get_focal_call(con)
+#ScanCall <- get_scan_call(con)
+#AllCall <- get_all_call(FocalCall, ScanCall)
+#AllCall_colony <- get_colony(AllCall\%>\%
+# select(Winner,Date)\%>\%
+# rename(AnimalID=Winner),Membership)
 
 }

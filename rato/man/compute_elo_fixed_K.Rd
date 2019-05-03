@@ -4,7 +4,7 @@
 \alias{compute_elo_fixed_K}
 \title{compute_elo_fixed_K}
 \usage{
-compute_elo_fixed_K(elo_DF, K, nested_output = FALSE)
+compute_elo_fixed_K(elo_DF, K, nested_output = FALSE, burn_in = 10)
 }
 \arguments{
 \item{elo_DF}{a data frame created by the function get_all_call_tidy()
@@ -13,6 +13,8 @@ and filter_all_data().}
 \item{K}{the log of the K value}
 
 \item{nested_output}{logical to return a nested df by colony default = FALSE}
+
+\item{burn_in}{burn_in for each colony}
 }
 \value{
 a tibble
@@ -22,9 +24,9 @@ return a nested data frame by colony. with interaction and elo
 scores before and after the interaction.
 }
 \examples{
-con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-AllCall_Tidy <- get_all_call_tidy(con)
-Elo_Data <- filter_all_data(AllCall_Tidy, 15)
-test <- compute_elo_fixed_K(Elo_Data, K = 4)
+# con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+# dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+# AllCall_Tidy <- get_all_call_tidy(con)
+# Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+# test <- compute_elo_fixed_K(Elo_Data, K = 4)
 }

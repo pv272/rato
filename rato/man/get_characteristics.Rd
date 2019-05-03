@@ -16,8 +16,8 @@ a tibble
 return a tibble with the characteristics of the ID
 }
 \examples{
-con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-characteristics_DF <- get_characteristics(con)
+#con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#characteristics_DF <- get_characteristics(con)
 
 }

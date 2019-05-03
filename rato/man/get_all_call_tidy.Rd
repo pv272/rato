@@ -16,7 +16,7 @@ a tibble
 load all data from elo analysis
 }
 \examples{
-con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-AllCall_Tidy <- get_all_call_tidy(con)
+#con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+# dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+# AllCall_Tidy <- get_all_call_tidy(con)
 }

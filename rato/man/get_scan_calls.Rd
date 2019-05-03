@@ -17,8 +17,8 @@ a tibble
 return scan call for all colonies
 }
 \examples{
-con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-scan_call <- get_scan_call(con)
+#con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#scan_call <- get_scan_call(con)
 
 }

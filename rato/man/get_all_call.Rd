@@ -18,10 +18,10 @@ a tibble
 return a tibble with combined focal and scan calls
 }
 \examples{
-con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-FocalCall <- get_focal_call(con)
-ScanCall <- get_scan_call(con)
-AllCall <- get_all_call(FocalCall, ScanCall)
+#con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#FocalCall <- get_focal_call(con)
+#ScanCall <- get_scan_call(con)
+#AllCall <- get_all_call(FocalCall, ScanCall)
 
 }

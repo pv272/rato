@@ -4,7 +4,7 @@
 \alias{filter_all_data}
 \title{filter_all_data}
 \usage{
-filter_all_data(AllCall_Tidy, n_obs)
+filter_all_data(AllCall_Tidy, n_obs = 5)
 }
 \arguments{
 \item{AllCall_Tidy}{a df build with the function get_all_call_tidy}
@@ -18,8 +18,8 @@ a tibble
 filter data to retain colonies with X observations
 }
 \examples{
-con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-AllCall_Tidy <- get_all_call_tidy(con)
-Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+#con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#AllCall_Tidy <- get_all_call_tidy(con)
+#Elo_Data <- filter_all_data(AllCall_Tidy, 15)
 }
