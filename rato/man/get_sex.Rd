@@ -16,7 +16,7 @@ a tibble
 return a tibble with the sex of the ID
 }
 \examples{
-con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-sex_DF <- get_sex(con)
+#con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#sex_DF <- get_sex(con)
 }
