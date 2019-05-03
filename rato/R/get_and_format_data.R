@@ -11,11 +11,12 @@
 #'@import lubridate
 #'@export
 #'@examples
-#'  con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#'  dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#'  Membership <- get_membership(con)
+#'  #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#'  #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#'  #Membership <- get_membership(con)
 
 get_membership <- function(con){
+  MemberFrom <- MemberTo <- AnimalRef <- AnimalID <- QueriedColony <- ColonyOrigin <- NULL
   Membership <- con %>%
     DBI::dbGetQuery ("SELECT
     AnimalRef,
@@ -51,11 +52,12 @@ AND MemberShipBetween.Colony <> 'Exported_Nigel'") %>%
 #'@import tibble
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' scan_call <- get_scan_call(con)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #scan_call <- get_scan_call(con)
 #'
 get_scan_call <- function(con) {
+  ObsDate <- Date <- . <-
 ScanCall <- con %>%
   DBI::dbGetQuery("SELECT *
                FROM user_philippev.SubCall_Scan
@@ -82,11 +84,12 @@ ScanCall <- con %>%
 #'@import tibble
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' focal_call <- get_focal_call(con)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #focal_call <- get_focal_call(con)
 #'
 get_focal_call <- function(con) {
+  ObsDate <- NbCall <- Date <- . <- Received <- AnimalID <- Partner <- NULL
 FocalCall <- con %>%
   DBI::dbGetQuery("SELECT * FROM user_philippev.SubCall_Focal") %>%
   dplyr::rename(Date=ObsDate,NBCall=NbCall) %>%
@@ -122,14 +125,15 @@ return(FocalCall_tidy)
 #'@import hms
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' FocalCall <- get_focal_call(con)
-#' ScanCall <- get_scan_call(con)
-#' AllCall <- get_all_call(FocalCall, ScanCall)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #FocalCall <- get_focal_call(con)
+#' #ScanCall <- get_scan_call(con)
+#' #AllCall <- get_all_call(FocalCall, ScanCall)
 #'
 
 get_all_call <- function(FocalCall, ScanCall) {
+  ObsTime <- ObsRef <- ObsType <- Date <- NULL
   FocalCall %>%
     bind_rows(ScanCall) %>%
     mutate(ObsTime=hms::as.hms(ObsTime)) %>% #for whatever reasons the lubridate hms() cannot be arranged. Ask Colin
@@ -155,11 +159,12 @@ get_all_call <- function(FocalCall, ScanCall) {
 #'@import dplyr
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' sex_DF <- get_sex(con)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #sex_DF <- get_sex(con)
 
 get_sex <- function(con) {
+  Sex <- AnimalID <- NULL
   con %>%
     dbGetQuery("SELECT *
 FROM Moleratdatabase.tblSex
@@ -180,10 +185,11 @@ FROM Moleratdatabase.tblSex
 #'@import dplyr
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' weight_DF <- get_weight(con)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #weight_DF <- get_weight(con)
 get_weight <- function(con) {
+  WeightDate <- AnimalID <- Weight <- WeightType <- NULL
   con %>%
     dbGetQuery("SELECT * FROM user_philippev.Weight_AnimalID") %>%
     mutate(WeightDate=ymd(WeightDate)) %>%
@@ -205,11 +211,12 @@ get_weight <- function(con) {
 #'@import dplyr
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' characteristics_DF <- get_characteristics(con)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #characteristics_DF <- get_characteristics(con)
 #'
 get_characteristics <- function(con){
+  BirthDate <- DeathDate <- Mother_FirstLitter <- Father_FirstLitter <- AnimalID <- Sex <- Wildcaught <- WildcaughtQueen <- LitterRef <- NULL
   con %>%
     dbGetQuery("SELECT * FROM user_philippev.ID_Characteristic") %>%
     mutate(BirthDate=ymd(BirthDate),DeathDate=ymd(DeathDate),Mother_FirstLitter=ymd(Mother_FirstLitter),Father_FirstLitter=ymd(Father_FirstLitter)) %>%
@@ -229,17 +236,18 @@ get_characteristics <- function(con){
 #'@import dplyr
 #'@export
 #'@examples
-#' con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' Membership <- get_membership(con)
-#' FocalCall <- get_focal_call(con)
-#' ScanCall <- get_scan_call(con)
-#' AllCall <- get_all_call(FocalCall, ScanCall)
-#' AllCall_colony <- get_colony(AllCall%>%
-#'  select(Winner,Date)%>%
-#'  rename(AnimalID=Winner),Membership)
+#' #con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #Membership <- get_membership(con)
+#' #FocalCall <- get_focal_call(con)
+#' #ScanCall <- get_scan_call(con)
+#' #AllCall <- get_all_call(FocalCall, ScanCall)
+#' #AllCall_colony <- get_colony(AllCall%>%
+#' # select(Winner,Date)%>%
+#' # rename(AnimalID=Winner),Membership)
 #'
 get_colony <- function(AllCall, Membership) {
+  AnimalID <- Date <- MemberFrom <- MemberTo <- AnimalRef <- NULL
 inner_join(AllCall %>% distinct (AnimalID,Date) #one only wants one colony for each day as individual cannot be measure in two colonies simultaneousls
            , Membership, by = "AnimalID") %>%
   filter(Date >= MemberFrom & Date <= MemberTo)%>%
@@ -259,11 +267,14 @@ inner_join(AllCall %>% distinct (AnimalID,Date) #one only wants one colony for e
 #'@import dplyr
 #'@export
 #'@examples
-#'con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' AllCall_Tidy <- get_all_call_tidy(con)
+#'#con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#'# dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#'# AllCall_Tidy <- get_all_call_tidy(con)
 
 get_all_call_tidy <- function(con){
+  Winner <- Date <- ColonyOrigin <- Loser <- . <- QueriedColony <- NULL
+  Loser_QueriedColony <- Winner_QueriedColony <- SexLoser <- SexWinner <- NULL
+
   ### load data
   FocalCall <- get_focal_call(con)
   ScanCall <- get_scan_call(con)
@@ -320,13 +331,13 @@ get_all_call_tidy <- function(con){
 #'@import dplyr
 #'@export
 #'@examples
-#' con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#' dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#' AllCall_Tidy <- get_all_call_tidy(con)
-#' Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+#' #con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#' #dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#' #AllCall_Tidy <- get_all_call_tidy(con)
+#' #Elo_Data <- filter_all_data(AllCall_Tidy, 15)
 
-filter_all_data <- function(AllCall_Tidy, n_obs){
-
+filter_all_data <- function(AllCall_Tidy, n_obs = 5){
+  Colony <- ObsType <- ObsRef <- SessionCount <- . <- Scan <- Focal <- TotalSession <- Winner_QueriedColony <- NULL
 Call_Summary<-AllCall_Tidy  %>%
   group_by(Colony,ObsType) %>%
   summarize(SessionCount=n_distinct(ObsRef)) %>%
@@ -338,7 +349,7 @@ Call_Summary<-AllCall_Tidy  %>%
 
 #colony to retain for analysis of Elo. One decides to keep colony that have had at least 15 sessions
 ColonyToRetain<-Call_Summary%>%
-  filter(TotalSession> n_obs) %>%
+  filter(TotalSession > n_obs) %>%
   select(Colony)
 
 
@@ -349,6 +360,7 @@ AllCall_Elo <-AllCall_Tidy %>%
   inner_join(.,ColonyToRetain, by = "Colony")
 return(AllCall_Elo)
 }
+
 
 
 
