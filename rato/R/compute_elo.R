@@ -17,18 +17,22 @@
 #'@import EloOptimized
 #'@export
 #'@examples
-#'# con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-#'# dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-#'# AllCall_Tidy <- get_all_call_tidy(con)
-#'# Elo_Data <- filter_all_data(AllCall_Tidy, 15)
-#'# test <- compute_elo_fixed_K(Elo_Data, K = 4)
-
+#'con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+#'dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+#'AllCall_Tidy <- get_all_call_tidy(con)
+#'Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+#'test <- Elo_Data %>% mutate(new_elo = list(compute_elo_fixed_K(., K = 4, nested_output = FALSE)))
+#'
+#'
 compute_elo_fixed_K <- function(elo_DF, K, nested_output = FALSE, burn_in = 10){
   Colony <- data  <- new_df <- NULL
+
   d2 <- elo_DF %>% nest(-Colony) %>%
    mutate(all_ids = purrr::map(data, ~ unique(c(.x$Winner, .x$Loser))))
+
 out1 <- d2 %>%
   mutate(new_df = purrr::pmap(list(X = d2$data, Y = d2$all_ids, Z = K), function(X, Y, Z) {
+
           out <- EloOptimized::elo.model1(par = Z,
                             burn_in = burn_in,
                             init_elo = 1000,
