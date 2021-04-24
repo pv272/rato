@@ -294,11 +294,11 @@ load_db_qry_ScanSession_MrRaw <- function(con){
 load_db_qry_ScanSession_All <- function(con){
   con %>%
   DBI::dbGetQuery("SELECT qry_ScanSession_All.*,
-              tblColonyCodes.Colony,
-              DATE(StartDate) AS ObsDate,
-              TIME(StartTime) AS ObsTime
-              FROM MR_RawData.qry_ScanSession_All
-             LEFT JOIN Moleratdatabase.tblColonyCodes ON qry_ScanSession_All.ColonyRef = tblColonyCodes.ColonyRef") %>%
+                  tblColonyCodes.Colony,
+                  DATE(StartDate) AS ObsDate,
+                  TIME(StartTime) AS ObsTime
+                  FROM MR_RawData.qry_ScanSession_All
+                  LEFT JOIN Moleratdatabase.tblColonyCodes ON qry_ScanSession_All.ColonyRef = tblColonyCodes.ColonyRef") %>%
   dplyr::distinct()
 }
 
@@ -381,3 +381,38 @@ load_db_qry_ScanContSummary_MrRaw <-  function(con){
 
 ################# focal ########################################################
 
+#' @describeIn load_db_family load FocalBehaviour_List_All
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_FocalBehaviour_List_All(con)
+#' }
+load_db_FocalBehaviour_List_All <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT temp.*,
+                   usys_FocalBehaviourCorrection.BehaviourRaw,
+                   usys_FocalBehaviourCorrection.ReceivedValue
+                   FROM
+                   (SELECT CodeRef, Label, Value
+                   FROM MR_MainData.tblCodeList
+                   WHERE CodeRef = 'FocalPointBehav'
+                   OR CodeRef = 'FocalStateBehav') AS temp
+                   LEFT JOIN MR_RawData.usys_FocalBehaviourCorrection ON temp.Value = usys_FocalBehaviourCorrection.BehaviourValue") %>%
+  dplyr::mutate(Value = as.integer(.data$Value)) %>%
+  dplyr::arrange(.data$CodeRef, .data$Value)
+}
+
+#' @describeIn load_db_family load qry_FocalSession_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalSession_Mrdb(con)
+#' }
+load_db_qry_FocalSession_Mrdb <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalSession_Mrdb") %>%
+  dplyr::rename(ObsRef = .data$FocalRef,
+         ObsDate = .data$FocalDate) %>%
+  dplyr::mutate(ObsDate = lubridate::ymd(.data$ObsDate),
+         ObsType = "Focal")
+}
