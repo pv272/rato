@@ -24,9 +24,12 @@ return a nested data frame by colony. with interaction and elo
 scores before and after the interaction.
 }
 \examples{
-# con <- con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
-# dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
-# AllCall_Tidy <- get_all_call_tidy(con)
-# Elo_Data <- filter_all_data(AllCall_Tidy, 15)
-# test <- compute_elo_fixed_K(Elo_Data, K = 4)
+\dontrun{
+con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
+dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
+AllCall_Tidy <- get_all_call_tidy(con)
+Elo_Data <- filter_all_data(AllCall_Tidy, 15)
+test <- Elo_Data \%>\% mutate(new_elo = list(compute_elo_fixed_K(., K = 4, nested_output = FALSE)))
+}
+
 }
