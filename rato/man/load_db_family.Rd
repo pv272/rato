@@ -28,6 +28,8 @@
 \alias{load_db_qry_ScanContSummary_Mrdb}
 \alias{load_db_qry_ScanCont_MrRaw}
 \alias{load_db_qry_ScanContSummary_MrRaw}
+\alias{load_db_FocalBehaviour_List_All}
+\alias{load_db_qry_FocalSession_Mrdb}
 \title{Load database tables}
 \usage{
 load_db_MembershipBetweenV2(con)
@@ -81,6 +83,10 @@ load_db_qry_ScanContSummary_Mrdb(con)
 load_db_qry_ScanCont_MrRaw(con)
 
 load_db_qry_ScanContSummary_MrRaw(con)
+
+load_db_FocalBehaviour_List_All(con)
+
+load_db_qry_FocalSession_Mrdb(con)
 }
 \arguments{
 \item{con}{A connection to the database}
@@ -152,6 +158,10 @@ check \link{create_db_tbl_family}
 \item \code{load_db_qry_ScanCont_MrRaw}: load qry_ScanCont_MrRaw
 
 \item \code{load_db_qry_ScanContSummary_MrRaw}: load qry_ScanContSummary_MrRaw
+
+\item \code{load_db_FocalBehaviour_List_All}: load FocalBehaviour_List_All
+
+\item \code{load_db_qry_FocalSession_Mrdb}: load qry_FocalSession_Mrdb
 }}
 
 \examples{
@@ -208,5 +218,11 @@ load_db_qry_ScanCont_MrRaw(con)
 }
 \dontrun{
 load_db_qry_ScanContSummary_MrRaw(con)
+}
+\dontrun{
+load_db_FocalBehaviour_List_All(con)
+}
+\dontrun{
+load_db_qry_FocalSession_Mrdb(con)
 }
 }
