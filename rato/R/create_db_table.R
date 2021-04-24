@@ -104,7 +104,9 @@ create_db_tbl_behavior_scan <- function(con){
 #'
 create_db_tbl_behavior_focal <- function(con){
 
-  tbl_names <- c()
+  tbl_names <- c("FocalBehaviour_List_All",
+                 "qry_FocalSession_Mrdb")
 
   .load_db_multiple_tbl(tbl_names, con)
 }
+
