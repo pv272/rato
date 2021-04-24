@@ -68,14 +68,14 @@ create_db_tbl_life_history <- function(con){
   .load_db_multiple_tbl(tbl_names, con)
 }
 
-#' @describeIn create_db_tbl_family create_db_tbl_behavior
+#' @describeIn create_db_tbl_family create behavior db_tables
 #' @export
 #' @examples
 #' \dontrun{
 #' create_db_tables_behavior(con)
 #' }
 #'
-create_db_tables_behavior <- function(con){
+create_db_tbl_behavior <- function(con){
 
   tbl_names <- c("ScanBehaviour_Instant_List",
                  "ScanBehaviour_Cont_List",
