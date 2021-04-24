@@ -214,7 +214,9 @@ load_db_FirstColony <- function(con){
 #' @describeIn load_db_family load ScanBehaviour_Instant_List
 #' @export
 #' @examples
+#' \dontrun{
 #' load_db_ScanBehaviour_Instant_List(con)
+#' }
 load_db_ScanBehaviour_Instant_List <- function(con){
   con %>%
   DBI::dbGetQuery("SELECT * FROM MR_MainData.tblCodeList
@@ -224,7 +226,9 @@ load_db_ScanBehaviour_Instant_List <- function(con){
 #' @describeIn load_db_family load ScanBehaviour_Cont_List
 #' @export
 #' @examples
+#' \dontrun{
 #' load_db_ScanBehaviour_Cont_List(con)
+#' }
 load_db_ScanBehaviour_Cont_List <- function(con){
   con %>%
   DBI::dbGetQuery("SELECT * FROM user_philippev.Scan_BehavModif_Cont")
@@ -233,7 +237,9 @@ load_db_ScanBehaviour_Cont_List <- function(con){
 #' @describeIn load_db_family load tblScanSessionDetails
 #' @export
 #' @examples
+#' \dontrun{
 #' load_db_tblScanSessionDetails(con)
+#' }
 load_db_tblScanSessionDetails <- function(con){
   con %>%
   DBI::dbGetQuery("SELECT tblScanSessionDetails.*,
@@ -245,4 +251,133 @@ load_db_tblScanSessionDetails <- function(con){
   dplyr::mutate(ObsDate = lubridate::ymd(.data$ObsDate),
          ObsType = "Scan")
 }
+
+#' @describeIn load_db_family load qry_ScanSession_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanSession_Mrdb(con)
+#' }
+load_db_qry_ScanSession_Mrdb <-function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT qry_ScanSession_Mrdb.*,
+             tblColonyCodes.Colony,
+             DATE(StartDate) AS ObsDate,
+             TIME(StartTime) AS ObsTime
+             FROM MR_RawData.qry_ScanSession_Mrdb
+             LEFT JOIN Moleratdatabase.tblColonyCodes ON qry_ScanSession_Mrdb.ColonyRef = tblColonyCodes.ColonyRef")
+}
+
+#' @describeIn load_db_family load qry_ScanSession_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanSession_MrRaw(con)
+#' }
+load_db_qry_ScanSession_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT qry_ScanSession_MrRaw.*,
+              tblColonyCodes.Colony,
+              DATE(StartDate) AS ObsDate,
+              TIME(StartTime) AS ObsTime
+              FROM MR_RawData.qry_ScanSession_MrRaw
+              LEFT JOIN Moleratdatabase.tblColonyCodes ON qry_ScanSession_MrRaw.ColonyRef = tblColonyCodes.ColonyRef") %>%
+  dplyr::distinct()
+}
+
+#' @describeIn load_db_family load qry_ScanSession_All
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanSession_All(con)
+#' }
+load_db_qry_ScanSession_All <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT qry_ScanSession_All.*,
+              tblColonyCodes.Colony,
+              DATE(StartDate) AS ObsDate,
+              TIME(StartTime) AS ObsTime
+              FROM MR_RawData.qry_ScanSession_All
+             LEFT JOIN Moleratdatabase.tblColonyCodes ON qry_ScanSession_All.ColonyRef = tblColonyCodes.ColonyRef") %>%
+  dplyr::distinct()
+}
+
+#' @describeIn load_db_family load qry_ScanInstantSummaryNoModifier_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanInstantSummaryNoModifier_Mrdb(con)
+#' }
+load_db_qry_ScanInstantSummaryNoModifier_Mrdb <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanInstantSummaryNoModifier_Mrdb")
+}
+
+#' @describeIn load_db_family load qry_ScanInstant_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanInstant_MrRaw(con)
+#' }
+load_db_qry_ScanInstant_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanInstant_MrRaw")
+}
+
+#' @describeIn load_db_family load qry_ScanInstantSummary_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanInstantSummary_MrRaw(con)
+#' }
+load_db_qry_ScanInstantSummary_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanInstantSummary_MrRaw")
+}
+
+#' @describeIn load_db_family load qry_ScanInstantSummaryNoModifier_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanInstantSummaryNoModifier_MrRaw(con)
+#' }
+load_db_qry_ScanInstantSummaryNoModifier_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanInstantSummaryNoModifier_MrRaw")
+}
+
+#' @describeIn load_db_family load qry_ScanContSummary_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanContSummary_Mrdb(con)
+#' }
+load_db_qry_ScanContSummary_Mrdb <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanContSummary_Mrdb")
+}
+
+#' @describeIn load_db_family load qry_ScanCont_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanCont_MrRaw(con)
+#' }
+load_db_qry_ScanCont_MrRaw <-  function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanCont_MrRaw")
+}
+
+#' @describeIn load_db_family load qry_ScanContSummary_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_ScanContSummary_MrRaw(con)
+#' }
+load_db_qry_ScanContSummary_MrRaw <-  function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_ScanContSummary_MrRaw")
+}
+
+################# focal ########################################################
 
