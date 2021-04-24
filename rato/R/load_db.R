@@ -1,14 +1,10 @@
 #' Load database tables
 #'
-#' The tables loaded by these functions will be stored in a hidden
-#' environment. We do that so that other functions have access to it without the
-#' user being tempted to interfere with it.
-#' * load_db_XXX will load the tables from the database relative to xxx.
-#' * load_db_XXX will load all tables from the database.
-#' * load_db_XXX will load a specific table.
+#' * load_db_XXX will load a specific table from the database.
 #'
 #' These functions can be used with a connection to the server of the Kalhari
-#' research programme using the function [connect_db].
+#' research programme using the function [connect_db]. For user level function
+#' check [create_db_tbl_family]
 #'
 #' @name load_db_family
 #' @aliases load_db_family
