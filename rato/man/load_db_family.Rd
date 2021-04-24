@@ -18,6 +18,16 @@
 \alias{load_db_ScanBehaviour_Instant_List}
 \alias{load_db_ScanBehaviour_Cont_List}
 \alias{load_db_tblScanSessionDetails}
+\alias{load_db_qry_ScanSession_Mrdb}
+\alias{load_db_qry_ScanSession_MrRaw}
+\alias{load_db_qry_ScanSession_All}
+\alias{load_db_qry_ScanInstantSummaryNoModifier_Mrdb}
+\alias{load_db_qry_ScanInstant_MrRaw}
+\alias{load_db_qry_ScanInstantSummary_MrRaw}
+\alias{load_db_qry_ScanInstantSummaryNoModifier_MrRaw}
+\alias{load_db_qry_ScanContSummary_Mrdb}
+\alias{load_db_qry_ScanCont_MrRaw}
+\alias{load_db_qry_ScanContSummary_MrRaw}
 \title{Load database tables}
 \usage{
 load_db_MembershipBetweenV2(con)
@@ -51,6 +61,26 @@ load_db_ScanBehaviour_Instant_List(con)
 load_db_ScanBehaviour_Cont_List(con)
 
 load_db_tblScanSessionDetails(con)
+
+load_db_qry_ScanSession_Mrdb(con)
+
+load_db_qry_ScanSession_MrRaw(con)
+
+load_db_qry_ScanSession_All(con)
+
+load_db_qry_ScanInstantSummaryNoModifier_Mrdb(con)
+
+load_db_qry_ScanInstant_MrRaw(con)
+
+load_db_qry_ScanInstantSummary_MrRaw(con)
+
+load_db_qry_ScanInstantSummaryNoModifier_MrRaw(con)
+
+load_db_qry_ScanContSummary_Mrdb(con)
+
+load_db_qry_ScanCont_MrRaw(con)
+
+load_db_qry_ScanContSummary_MrRaw(con)
 }
 \arguments{
 \item{con}{A connection to the database}
@@ -102,6 +132,26 @@ check \link{create_db_tbl_family}
 \item \code{load_db_ScanBehaviour_Cont_List}: load ScanBehaviour_Cont_List
 
 \item \code{load_db_tblScanSessionDetails}: load tblScanSessionDetails
+
+\item \code{load_db_qry_ScanSession_Mrdb}: load qry_ScanSession_Mrdb
+
+\item \code{load_db_qry_ScanSession_MrRaw}: load qry_ScanSession_MrRaw
+
+\item \code{load_db_qry_ScanSession_All}: load qry_ScanSession_All
+
+\item \code{load_db_qry_ScanInstantSummaryNoModifier_Mrdb}: load qry_ScanInstantSummaryNoModifier_Mrdb
+
+\item \code{load_db_qry_ScanInstant_MrRaw}: load qry_ScanInstant_MrRaw
+
+\item \code{load_db_qry_ScanInstantSummary_MrRaw}: load qry_ScanInstantSummary_MrRaw
+
+\item \code{load_db_qry_ScanInstantSummaryNoModifier_MrRaw}: load qry_ScanInstantSummaryNoModifier_MrRaw
+
+\item \code{load_db_qry_ScanContSummary_Mrdb}: load qry_ScanContSummary_Mrdb
+
+\item \code{load_db_qry_ScanCont_MrRaw}: load qry_ScanCont_MrRaw
+
+\item \code{load_db_qry_ScanContSummary_MrRaw}: load qry_ScanContSummary_MrRaw
 }}
 
 \examples{
@@ -120,7 +170,43 @@ load_db_Escape(con)
 load_db_Experiments_SubjectID(con)
 load_db_PV_Parentage(con)
 load_db_FirstColony(con)
+\dontrun{
 load_db_ScanBehaviour_Instant_List(con)
+}
+\dontrun{
 load_db_ScanBehaviour_Cont_List(con)
+}
+\dontrun{
 load_db_tblScanSessionDetails(con)
+}
+\dontrun{
+load_db_qry_ScanSession_Mrdb(con)
+}
+\dontrun{
+load_db_qry_ScanSession_MrRaw(con)
+}
+\dontrun{
+load_db_qry_ScanSession_All(con)
+}
+\dontrun{
+load_db_qry_ScanInstantSummaryNoModifier_Mrdb(con)
+}
+\dontrun{
+load_db_qry_ScanInstant_MrRaw(con)
+}
+\dontrun{
+load_db_qry_ScanInstantSummary_MrRaw(con)
+}
+\dontrun{
+load_db_qry_ScanInstantSummaryNoModifier_MrRaw(con)
+}
+\dontrun{
+load_db_qry_ScanContSummary_Mrdb(con)
+}
+\dontrun{
+load_db_qry_ScanCont_MrRaw(con)
+}
+\dontrun{
+load_db_qry_ScanContSummary_MrRaw(con)
+}
 }
