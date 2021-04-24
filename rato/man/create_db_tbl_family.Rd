@@ -4,12 +4,15 @@
 \alias{create_db_tbl_family}
 \alias{create_db_tbl}
 \alias{create_db_tbl_life_history}
-\alias{create_db_tbl_behavior}
+\alias{create_db_tbl_behavior_scan}
+\alias{create_db_tbl_behavior_focal}
 \title{Create database tables}
 \usage{
 create_db_tbl_life_history(con)
 
-create_db_tbl_behavior(con)
+create_db_tbl_behavior_scan(con)
+
+create_db_tbl_behavior_focal(con)
 }
 \arguments{
 \item{con}{A connection to the database}
@@ -24,7 +27,8 @@ environment. We do that so that other functions have access to it without the
 user being tempted to interfere with it.
 \itemize{
 \item \link{create_db_tbl_life_history} will load the tables from the database relative to life_history
-\item \link{create_db_tbl_behavior} will load the tables from the database relative to behavior
+\item \link{create_db_tbl_behavior_scan} will load the tables from the database relative to scan behavior
+\item \link{create_db_tbl_behavior_focal} will load the tables from the database relative to focal behavior
 }
 }
 \details{
@@ -35,7 +39,9 @@ research programme using the function \link{connect_db}.
 \itemize{
 \item \code{create_db_tbl_life_history}: Create Life history db_tables
 
-\item \code{create_db_tbl_behavior}: create behavior db_tables
+\item \code{create_db_tbl_behavior_scan}: create behavior db_tables for scan behavior
+
+\item \code{create_db_tbl_behavior_focal}: create behavior db_tables for focal behavior
 }}
 
 \examples{
@@ -44,7 +50,11 @@ research programme using the function \link{connect_db}.
 load_db_tbl_life_history(con)
 }
 \dontrun{
-create_db_tables_behavior(con)
+create_db_tbl_behavior_scan(con)
+}
+
+\dontrun{
+create_db_tbl_behavior_focal(con)
 }
 
 }
