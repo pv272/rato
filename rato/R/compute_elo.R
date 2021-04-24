@@ -17,12 +17,13 @@
 #'@import EloOptimized
 #'@export
 #'@examples
+#'\dontrun{
 #'con <- DBI::dbConnect(RMySQL::MySQL(), user = 'philippev', password = getPass::getPass(),
 #'dbname = 'Moleratdatabase', host = 'Kalahariresearch.org')
 #'AllCall_Tidy <- get_all_call_tidy(con)
 #'Elo_Data <- filter_all_data(AllCall_Tidy, 15)
 #'test <- Elo_Data %>% mutate(new_elo = list(compute_elo_fixed_K(., K = 4, nested_output = FALSE)))
-#'
+#' }
 #'
 compute_elo_fixed_K <- function(elo_DF, K, nested_output = FALSE, burn_in = 10){
   Colony <- data  <- new_df <- NULL
