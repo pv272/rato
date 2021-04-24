@@ -4,7 +4,8 @@
 #' environment. We do that so that other functions have access to it without the
 #' user being tempted to interfere with it.
 #' * [create_db_tbl_life_history] will load the tables from the database relative to life_history
-#' * [create_db_tbl_behavior] will load the tables from the database relative to behavior
+#' * [create_db_tbl_behavior_scan] will load the tables from the database relative to scan behavior
+#' * [create_db_tbl_behavior_focal] will load the tables from the database relative to focal behavior
 #'
 #' These functions can be used with a connection to the server of the Kalhari
 #' research programme using the function [connect_db].
@@ -68,18 +69,42 @@ create_db_tbl_life_history <- function(con){
   .load_db_multiple_tbl(tbl_names, con)
 }
 
-#' @describeIn create_db_tbl_family create behavior db_tables
+#' @describeIn create_db_tbl_family create behavior db_tables for scan behavior
 #' @export
 #' @examples
 #' \dontrun{
-#' create_db_tables_behavior(con)
+#' create_db_tbl_behavior_scan(con)
 #' }
 #'
-create_db_tbl_behavior <- function(con){
+create_db_tbl_behavior_scan <- function(con){
 
   tbl_names <- c("ScanBehaviour_Instant_List",
                  "ScanBehaviour_Cont_List",
-                 "tblScanSessionDetails")
+                 "tblScanSessionDetails",
+                 "qry_ScanSession_Mrdb",
+                 "qry_ScanSession_MrRaw",
+                 "qry_ScanSession_All",
+                 "qry_ScanInstantSummaryNoModifier_Mrdb",
+                 "qry_ScanInstant_MrRaw",
+                 "qry_ScanInstantSummary_MrRaw",
+                 "qry_ScanInstantSummaryNoModifier_MrRaw",
+                 "qry_ScanContSummary_Mrdb",
+                 "qry_ScanCont_MrRaw",
+                 "qry_ScanContSummary_MrRaw")
+
+  .load_db_multiple_tbl(tbl_names, con)
+}
+
+#' @describeIn create_db_tbl_family create behavior db_tables for focal behavior
+#' @export
+#' @examples
+#' \dontrun{
+#' create_db_tbl_behavior_focal(con)
+#' }
+#'
+create_db_tbl_behavior_focal <- function(con){
+
+  tbl_names <- c()
 
   .load_db_multiple_tbl(tbl_names, con)
 }
