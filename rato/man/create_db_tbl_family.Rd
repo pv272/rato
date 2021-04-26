@@ -6,6 +6,7 @@
 \alias{create_db_tbl_life_history}
 \alias{create_db_tbl_behavior_scan}
 \alias{create_db_tbl_behavior_focal}
+\alias{create_db_tbl_samples}
 \title{Create database tables}
 \usage{
 create_db_tbl_life_history(con)
@@ -13,6 +14,8 @@ create_db_tbl_life_history(con)
 create_db_tbl_behavior_scan(con)
 
 create_db_tbl_behavior_focal(con)
+
+create_db_tbl_samples(con)
 }
 \arguments{
 \item{con}{A connection to the database}
@@ -29,6 +32,7 @@ user being tempted to interfere with it.
 \item \link{create_db_tbl_life_history} will load the tables from the database relative to life_history
 \item \link{create_db_tbl_behavior_scan} will load the tables from the database relative to scan behavior
 \item \link{create_db_tbl_behavior_focal} will load the tables from the database relative to focal behavior
+\item \link{create_db_tbl_samples} will load the tables from the database relative to samples
 }
 }
 \details{
@@ -42,6 +46,8 @@ research programme using the function \link{connect_db}.
 \item \code{create_db_tbl_behavior_scan}: create behavior db_tables for scan behavior
 
 \item \code{create_db_tbl_behavior_focal}: create behavior db_tables for focal behavior
+
+\item \code{create_db_tbl_samples}: create samples db_tables
 }}
 
 \examples{
@@ -55,6 +61,10 @@ create_db_tbl_behavior_scan(con)
 
 \dontrun{
 create_db_tbl_behavior_focal(con)
+}
+
+\dontrun{
+create_db_tbl_samples(con)
 }
 
 }

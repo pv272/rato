@@ -30,6 +30,19 @@
 \alias{load_db_qry_ScanContSummary_MrRaw}
 \alias{load_db_FocalBehaviour_List_All}
 \alias{load_db_qry_FocalSession_Mrdb}
+\alias{load_db_qry_FocalSession_MrRaw}
+\alias{load_db_qry_FocalSession_All}
+\alias{load_db_qry_FocalState_MrRaw}
+\alias{load_db_qry_FocalStateSummary_Mrdb}
+\alias{load_db_qry_FocalStateSummary_MrRaw}
+\alias{load_db_qry_FocalStateSummary_All}
+\alias{load_db_qry_FocalPoint_MrRaw}
+\alias{load_db_qry_FocalPointSummary_Mrdb}
+\alias{load_db_qry_FocalPointSummary_MrRaw}
+\alias{load_db_qry_FocalPointSummary_All}
+\alias{load_db_Urine_Collected}
+\alias{load_db_Plasma_Collected}
+\alias{load_db_Samples_Exported}
 \title{Load database tables}
 \usage{
 load_db_MembershipBetweenV2(con)
@@ -87,6 +100,32 @@ load_db_qry_ScanContSummary_MrRaw(con)
 load_db_FocalBehaviour_List_All(con)
 
 load_db_qry_FocalSession_Mrdb(con)
+
+load_db_qry_FocalSession_MrRaw(con)
+
+load_db_qry_FocalSession_All(con)
+
+load_db_qry_FocalState_MrRaw(con)
+
+load_db_qry_FocalStateSummary_Mrdb(con)
+
+load_db_qry_FocalStateSummary_MrRaw(con)
+
+load_db_qry_FocalStateSummary_All(con)
+
+load_db_qry_FocalPoint_MrRaw(con)
+
+load_db_qry_FocalPointSummary_Mrdb(con)
+
+load_db_qry_FocalPointSummary_MrRaw(con)
+
+load_db_qry_FocalPointSummary_All(con)
+
+load_db_Urine_Collected(con)
+
+load_db_Plasma_Collected(con)
+
+load_db_Samples_Exported(con)
 }
 \arguments{
 \item{con}{A connection to the database}
@@ -162,6 +201,32 @@ check \link{create_db_tbl_family}
 \item \code{load_db_FocalBehaviour_List_All}: load FocalBehaviour_List_All
 
 \item \code{load_db_qry_FocalSession_Mrdb}: load qry_FocalSession_Mrdb
+
+\item \code{load_db_qry_FocalSession_MrRaw}: load qry_FocalSession_MrRaw
+
+\item \code{load_db_qry_FocalSession_All}: load qry_FocalSession_All
+
+\item \code{load_db_qry_FocalState_MrRaw}: load qry_FocalState_MrRaw
+
+\item \code{load_db_qry_FocalStateSummary_Mrdb}: load qry_FocalStateSummary_Mrdb
+
+\item \code{load_db_qry_FocalStateSummary_MrRaw}: load qry_FocalStateSummary_MrRaw
+
+\item \code{load_db_qry_FocalStateSummary_All}: load qry_FocalStateSummary_All
+
+\item \code{load_db_qry_FocalPoint_MrRaw}: load qry_FocalPoint_MrRaw
+
+\item \code{load_db_qry_FocalPointSummary_Mrdb}: load qry_FocalPointSummary_Mrdb
+
+\item \code{load_db_qry_FocalPointSummary_MrRaw}: load qry_FocalPointSummary_MrRaw
+
+\item \code{load_db_qry_FocalPointSummary_All}: load qry_FocalPointSummary_All
+
+\item \code{load_db_Urine_Collected}: load Urine_Collected
+
+\item \code{load_db_Plasma_Collected}: load Plasma_Collected
+
+\item \code{load_db_Samples_Exported}: load Samples_Exported
 }}
 
 \examples{
@@ -224,5 +289,44 @@ load_db_FocalBehaviour_List_All(con)
 }
 \dontrun{
 load_db_qry_FocalSession_Mrdb(con)
+}
+\dontrun{
+load_db_qry_FocalSession_MrRaw(con)
+}
+\dontrun{
+load_db_qry_FocalSession_All(con)
+}
+\dontrun{
+load_db_qry_FocalState_MrRaw(con)
+}
+\dontrun{
+load_db_qry_FocalStateSummary_Mrdb(con)
+}
+\dontrun{
+load_db_qry_FocalStateSummary_MrRaw(con)
+}
+\dontrun{
+load_db_qry_FocalStateSummary_All(con)
+}
+\dontrun{
+load_db_qry_FocalPoint_MrRaw(con)
+}
+\dontrun{
+load_db_qry_FocalPointSummary_Mrdb(con)
+}
+\dontrun{
+load_db_qry_FocalPointSummary_MrRaw(con)
+}
+\dontrun{
+load_db_qry_FocalPointSummary_All(con)
+}
+\dontrun{
+load_db_Urine_Collected(con)
+}
+\dontrun{
+load_db_Plasma_Collected(con)
+}
+\dontrun{
+load_db_Samples_Exported(con)
 }
 }
