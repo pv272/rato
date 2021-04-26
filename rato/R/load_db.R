@@ -58,13 +58,13 @@ load_db_MembershipBetweenV2 <- function(con) {
     MembershipBetweenV2.Colony,
     tblColonyCodes.ColonyLocation
     -- MembershipBetweenV2.CurrentPop -- Not the same as ColonyLocation, as it returns for all rows of membershipV2 where the animal currently is
-FROM
+    FROM
     MoleratViews_Pending.MembershipBetweenV2
-LEFT JOIN
+    LEFT JOIN
     Moleratdatabase.tblColonyCodes ON MoleratViews_Pending.MembershipBetweenV2.ColonyRef = tblColonyCodes.ColonyRef
-WHERE MembershipBetweenV2.Colony <> 'Exported_Nigel'
-AND MembershipBetweenV2.Colony <> 'Exported_Conny'
--- AND MembershipBetweenV2.CurrentPop = 'L'") %>% #CurrentPop indicates where the animal is and not where it was. Therefore if one wants to return groupSize in the past
+    WHERE MembershipBetweenV2.Colony <> 'Exported_Nigel'
+    AND MembershipBetweenV2.Colony <> 'Exported_Conny'
+    -- AND MembershipBetweenV2.CurrentPop = 'L'") %>% #CurrentPop indicates where the animal is and not where it was. Therefore if one wants to return groupSize in the past
   dplyr::mutate(MemberFrom = lubridate::ymd(.data$MemberFrom),
                 MemberTo = lubridate::ymd(.data$MemberTo)) %>%
   dplyr::select(.data$AnimalRef, .data$AnimalID, .data$MemberFrom, .data$MemberTo, .data$Colony, .data$ColonyLocation)
@@ -415,4 +415,208 @@ load_db_qry_FocalSession_Mrdb <- function(con){
          ObsDate = .data$FocalDate) %>%
   dplyr::mutate(ObsDate = lubridate::ymd(.data$ObsDate),
          ObsType = "Focal")
+}
+
+#' @describeIn load_db_family load qry_FocalSession_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalSession_MrRaw(con)
+#' }
+load_db_qry_FocalSession_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalSession_MrRaw") %>%
+  dplyr::rename(ObsRef = .data$FocalFileID, #Inconsistencies, in other session view, it is called FocalRef
+                ObsDate = .data$FocalDate) %>%
+  dplyr::mutate(ObsDate = lubridate::ymd(.data$ObsDate),
+                ObsType = "Focal")
+}
+
+#' @describeIn load_db_family load qry_FocalSession_All
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalSession_All(con)
+#' }
+load_db_qry_FocalSession_All <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalSession_All") %>%
+  dplyr::rename(ObsRef = .data$FocalRef,
+                ObsDate = .data$FocalDate) %>%
+  dplyr::mutate(ObsDate = lubridate::ymd(.data$ObsDate),
+         ObsType = "Focal")
+}
+
+#' @describeIn load_db_family load qry_FocalState_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalState_MrRaw(con)
+#' }
+load_db_qry_FocalState_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalState_MrRaw") %>%
+  dplyr::rename(ObsRef = .data$FocalFileID) %>%
+  dplyr::mutate(DataSource = "MR_RawData", #as it is only missing from that view
+                BehaviourType = "State")
+}
+
+#' @describeIn load_db_family load qry_FocalStateSummary_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalStateSummary_Mrdb(con)
+#' }
+load_db_qry_FocalStateSummary_Mrdb <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalStateSummary_Mrdb") %>%
+  dplyr::rename(ObsRef = .data$FocalRef) %>%
+  dplyr::mutate(BehaviourType = "State")
+}
+
+#' @describeIn load_db_family load qry_FocalStateSummary_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalStateSummary_MrRaw(con)
+#' }
+load_db_qry_FocalStateSummary_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalStateSummary_MrRaw") %>%
+  dplyr::rename(ObsRef = FocalFileID) %>%
+  dplyr::mutate(BehaviourType = "State")
+}
+
+#' @describeIn load_db_family load qry_FocalStateSummary_All
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalStateSummary_All(con)
+#' }
+load_db_qry_FocalStateSummary_All <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalStateSummary_All") %>%
+  dplyr::rename(ObsRef = .data$FocalRef) %>%
+  dplyr::mutate(BehaviourType = "State")
+}
+
+#' @describeIn load_db_family load qry_FocalPoint_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalPoint_MrRaw(con)
+#' }
+load_db_qry_FocalPoint_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalPoint_MrRaw") %>%
+  dplyr::rename(ObsRef = .data$FocalFileID) %>%
+  dplyr::mutate(DataSource = "MR_RawData",
+                BehaviourType = "Point")
+}
+
+#' @describeIn load_db_family load qry_FocalPointSummary_Mrdb
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalPointSummary_Mrdb(con)
+#' }
+load_db_qry_FocalPointSummary_Mrdb <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalPointSummary_Mrdb") %>%
+  dplyr::rename(ObsRef = .data$FocalRef) %>%
+  dplyr::mutate(BehaviourType = "Point")
+}
+
+#' @describeIn load_db_family load qry_FocalPointSummary_MrRaw
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalPointSummary_MrRaw(con)
+#' }
+load_db_qry_FocalPointSummary_MrRaw <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalPointSummary_MrRaw") %>%
+  dplyr::rename(ObsRef = .data$FocalFileID) %>%
+  dplyr::mutate(BehaviourType = "Point")
+}
+
+#' @describeIn load_db_family load qry_FocalPointSummary_All
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_qry_FocalPointSummary_All(con)
+#' }
+load_db_qry_FocalPointSummary_All <- function(con){
+  con %>%
+  DBI::dbGetQuery("SELECT * FROM MR_RawData.qry_FocalPointSummary_All") %>%
+  dplyr::rename(ObsRef = FocalRef) %>%
+  dplyr::mutate(BehaviourType = "Point")
+}
+
+################# samples ######################################################
+
+#' @describeIn load_db_family load Urine_Collected
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_Urine_Collected(con)
+#' }
+load_db_Urine_Collected <- function(con){
+  con %>%
+  DBI::dbGetQuery ("SELECT Temp.Colony, Moleratdatabase.tblAnimalID.AnimalID,
+                    MR_MainData.tblUrineSamples.UrineNumber, UrineCondition.Label,
+                    Moleratdatabase.tblExpDescript.ExpName,
+                    DATE (MR_MainData.tblUrineSamples.Date) AS UrineDate,
+                    MR_MainData.tblUrineSamples.In,
+                    MR_MainData.tblUrineSamples.Out,
+                    TIME (MR_MainData.tblUrineSamples.Delay) AS UrineDelay,
+                    MR_MainData.tblUrineSamples.UrineVolumeCollected AS VolumeCollected
+                    FROM MR_MainData.tblUrineSamples
+                    LEFT JOIN Moleratdatabase.tblAnimalID ON MR_MainData.tblUrineSamples.AnimalRef = tblAnimalID.RowRef
+                    LEFT JOIN Moleratdatabase.tblExpDescript ON MR_MainData.tblUrineSamples.Experiment = tblExpDescript.ExptRef
+                    LEFT JOIN (SELECT * FROM Moleratdatabase.tblCodeList
+                    WHERE CodeRef= 'UrineCondition') AS UrineCondition ON MR_MainData.tblUrineSamples.`Condition` = UrineCondition.`Value`
+                    LEFT JOIN MoleratViews_Pending.`MemberShipBetween` AS `Temp` ON `MR_MainData`.`tblUrineSamples`.`Date` BETWEEN `Temp`.`MemberFrom` AND `Temp`.`MemberTo` AND `MR_MainData`.`tblUrineSamples`.`AnimalRef` = `Temp`.`AnimalRef`
+                    ORDER BY UrineNumber") %>%
+  dplyr::mutate(UrineDate = lubridate::ymd(.data$UrineDate)) %>%
+  dplyr::mutate(SampleType = "Urine")
+}
+
+#' @describeIn load_db_family load Plasma_Collected
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_Plasma_Collected(con)
+#' }
+load_db_Plasma_Collected <- function(con) {
+  con %>%
+  DBI::dbGetQuery ("SELECT Moleratdatabase.tblAnimalID.AnimalID,
+                    Temp.Colony, -- return the colony the animal was part of
+                    Moleratdatabase.tblPlasmaSamples.PlasmaNumber AS SampleID,
+                    DATE (Moleratdatabase.tblPlasmaSamples.SampleDate) AS PlasmaDate,
+                    TIME (Moleratdatabase.tblPlasmaSamples.Time) AS PlasmaTime,
+                    Moleratdatabase.tblPlasmaSamples.Delay,
+                    Moleratdatabase.tblPlasmaSamples.Volume AS `Plasma Volume`,
+                    Moleratdatabase.tblExpDescript.ExpName AS PlasmaExp
+                    FROM Moleratdatabase.tblPlasmaSamples
+                    LEFT JOIN Moleratdatabase.tblAnimalID ON Moleratdatabase.tblPlasmaSamples.AnimalID = tblAnimalID.AnimalID
+                    LEFT JOIN Moleratdatabase.tblExpDescript ON Moleratdatabase.tblPlasmaSamples.Experiment = tblExpDescript.ExptRef
+                    LEFT JOIN Moleratdatabase.tblTeloSample ON Moleratdatabase.tblPlasmaSamples.PlasmaNumber = tblTeloSample.TeloNumber
+                    LEFT JOIN MoleratViews_Pending.`MembershipBetweenV2` AS `Temp` ON `Moleratdatabase`.`tblPlasmaSamples`.`SampleDate` BETWEEN `Temp`.`MemberFrom` AND `Temp`.`MemberTo` AND `Moleratdatabase`.`tblPlasmaSamples`.`AnimalID` = `Temp`.`AnimalID`
+                    WHERE Moleratdatabase.tblPlasmaSamples.PlasmaNumber IS NOT NULL
+                    ORDER BY Moleratdatabase.tblPlasmaSamples.PlasmaNumber") %>%
+  dplyr::mutate(PlasmaDate = lubridate::ymd(.data$PlasmaDate)) %>%
+  dplyr::mutate(SampleType = "Plasma")
+}
+
+#' @describeIn load_db_family load Samples_Exported
+#' @export
+#' @examples
+#' \dontrun{
+#' load_db_Samples_Exported(con)
+#' }
+load_db_Samples_Exported <- function(con){
+  con %>%
+  DBI::dbGetQuery ("SELECT * FROM user_philippev.Samples_Exported") %>%
+  dplyr::mutate(Date_Exported = lubridate::ymd(.data$Date_Exported))
 }
