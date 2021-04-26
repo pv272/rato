@@ -6,6 +6,7 @@
 #' * [create_db_tbl_life_history] will load the tables from the database relative to life_history
 #' * [create_db_tbl_behavior_scan] will load the tables from the database relative to scan behavior
 #' * [create_db_tbl_behavior_focal] will load the tables from the database relative to focal behavior
+#' * [create_db_tbl_samples] will load the tables from the database relative to samples
 #'
 #' These functions can be used with a connection to the server of the Kalhari
 #' research programme using the function [connect_db].
@@ -105,8 +106,33 @@ create_db_tbl_behavior_scan <- function(con){
 create_db_tbl_behavior_focal <- function(con){
 
   tbl_names <- c("FocalBehaviour_List_All",
-                 "qry_FocalSession_Mrdb")
+                 "qry_FocalSession_Mrdb",
+                 "qry_FocalSession_MrRaw",
+                 "qry_FocalSession_All",
+                 "qry_FocalState_MrRaw",
+                 "qry_FocalStateSummary_Mrdb",
+                 "qry_FocalStateSummary_MrRaw",
+                 "qry_FocalStateSummary_All",
+                 "qry_FocalPoint_MrRaw",
+                 "qry_FocalPointSummary_Mrdb",
+                 "qry_FocalPointSummary_MrRaw",
+                 "qry_FocalPointSummary_All")
 
   .load_db_multiple_tbl(tbl_names, con)
 }
 
+#' @describeIn create_db_tbl_family create samples db_tables
+#' @export
+#' @examples
+#' \dontrun{
+#' create_db_tbl_samples(con)
+#' }
+#'
+create_db_tbl_samples <- function(con){
+
+  tbl_names <- c("Urine_Collected",
+                 "Plasma_Collected",
+                 "Samples_Exported")
+
+  .load_db_multiple_tbl(tbl_names, con)
+}
